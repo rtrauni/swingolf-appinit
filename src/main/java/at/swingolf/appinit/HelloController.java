@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -89,8 +90,10 @@ public class HelloController {
                                 tournament.getPlayers().add(player);
                                 player.setName(c.getStringCellValue());
                             }
-                            if (validRow && c.getColumnIndex()>=3 && c.getColumnIndex()<=3+18) {
-
+                            if (validRow && c.getColumnIndex()>=3 && c.getColumnIndex()<3+18) {
+                                if (org.apache.commons.lang3.StringUtils.isNumeric(c.getStringCellValue())) {
+                                    player.getScores().put(c.getColumnIndex() - 2, Double.valueOf(c.getNumericCellValue()).intValue());
+                                }
                             }
                         }
 
