@@ -15,6 +15,7 @@ public class Tournament {
     private String best15;
     private String best20;
     private Collection<Player> players = new LinkedList<>();
+    private Integer year;
 
     public void setPlace(String place) {
         this.place = place;
@@ -72,6 +73,10 @@ public class Tournament {
         this.best20 = best20;
     }
 
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
     public Collection<Player> getPlayers() {
         return players;
     }
@@ -81,6 +86,7 @@ public class Tournament {
         return "Tournament{" +
                 "place='" + place + '\'' +
                 ", sheetName='" + sheetName + '\'' +
+                ", year='"+year + '\'' +
                 ", date='" + date + '\'' +
                 ", name='" + name + '\'' +
                 ", referee='" + referee + '\'' +

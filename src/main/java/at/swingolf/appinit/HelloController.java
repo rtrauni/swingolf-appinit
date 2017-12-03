@@ -2,6 +2,7 @@ package at.swingolf.appinit;
 
 import com.monitorjbl.xlsx.StreamingReader;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,11 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.*;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @RestController
 public class HelloController {
+    NumberFormat format = NumberFormat.getInstance(Locale.GERMAN);
+    NumberFormat format2 = NumberFormat.getInstance(Locale.US);
+
     @Value("${result.directory}")
     private String fileDirectory;
 
@@ -28,9 +37,16 @@ public class HelloController {
     @RequestMapping("/import")
     public String importer() throws IOException {
         Collection<File> files = FileUtils.listFiles(new File(fileDirectory), new String[]{"xlsx"}, false);
-        files.stream().map(file -> parseFile(file)).flatMap(tournament -> tournament.stream()).forEach(tournament -> {
-            printTournament(tournament);});
-        return "Import succeeded!";
+        List<Tournament> tournaments = files.stream().map(file -> parseFile(file)).flatMap(tournament -> tournament.stream()).map(tournament -> {
+            printTournament(tournament);
+            return tournament;
+        }).collect(Collectors.toList());
+
+        return toCypher(tournaments);
+    }
+
+    private String toCypher(List<Tournament> tournaments) {
+        return "" + tournaments.size();
     }
 
     private void printTournament(Tournament tournament) {
@@ -47,8 +63,11 @@ public class HelloController {
                         .rowCacheSize(100)
                         .bufferSize(4096)
                         .open(is)) {
+            String yearString = org.apache.commons.lang3.StringUtils.substringAfterLast(FilenameUtils.getBaseName(file.getName()), " ");
+            Integer year = Integer.parseInt(yearString);
             for (Sheet sheet : workbook) {
                 Tournament tournament = new Tournament();
+                tournament.setYear(year);
                 tournaments.add(tournament);
                 String sheetName = sheet.getSheetName();
                 tournament.setSheetName(sheetName);
@@ -86,13 +105,43 @@ public class HelloController {
                             if (c.getColumnIndex()==0 && c.getStringCellValue().length()>2) {
                                     validRow = true;
                             }
-                            if (validRow && c.getColumnIndex() == 0) {
-                                tournament.getPlayers().add(player);
-                                player.setName(c.getStringCellValue());
-                            }
-                            if (validRow && c.getColumnIndex()>=3 && c.getColumnIndex()<3+18) {
-                                if (org.apache.commons.lang3.StringUtils.isNumeric(c.getStringCellValue())) {
-                                    player.getScores().put(c.getColumnIndex() - 2, Double.valueOf(c.getNumericCellValue()).intValue());
+                            if (validRow) {
+                                if (c.getColumnIndex() == 0) {
+                                    tournament.getPlayers().add(player);
+                                    player.setName(c.getStringCellValue());
+                                }
+                                if (c.getColumnIndex() == 1) {
+                                    player.setLicense(c.getStringCellValue());
+                                }
+                                if (c.getColumnIndex() == 2) {
+                                   if (c.getStringCellValue().length()>2) {
+                                       try {
+                                           player.setOldHandicap(format.parse(c.getStringCellValue()).doubleValue());
+                                       } catch (ParseException e) {
+                                           player.setOldHandicap(c.getNumericCellValue());
+                                           // throw new RuntimeException("error at file "+file.getAbsolutePath()+" sheet"+sheet.getSheetName()+" row "+r.getRowNum()+" cell "+c.getColumnIndex(),e);
+                                       }
+                                   }
+                                }
+                                if (c.getColumnIndex() >= 3 && c.getColumnIndex() < 3 + 18) {
+                                    if (org.apache.commons.lang3.StringUtils.isNumeric(c.getStringCellValue())) {
+                                        player.getScores().put(c.getColumnIndex() - 2, Double.valueOf(c.getNumericCellValue()).intValue());
+                                    }
+                                }
+                                if (c.getColumnIndex() == 21) {
+                                    if (c.getStringCellValue().length()>2) {
+                                        String stringCellValue = c.getStringCellValue().replaceAll("\"", "");
+                                        player.setResult(Double.valueOf(stringCellValue).intValue());
+                                    }
+                                }
+                                if (c.getColumnIndex() == 22) {
+                                    if (c.getStringCellValue().length()>2) {
+                                        // TODO
+                                            String stringCellValue = c.getStringCellValue().replaceAll("\"", "");
+                                        if (!"#VALUE!".equals(stringCellValue)) {
+                                            player.setResultAfterCorrecture(Double.valueOf(stringCellValue).intValue());
+                                        }
+                                    }
                                 }
                             }
                         }
