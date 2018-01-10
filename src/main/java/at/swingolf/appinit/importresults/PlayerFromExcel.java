@@ -1,4 +1,6 @@
-package at.swingolf.appinit;
+package at.swingolf.appinit.importresults;
+
+import org.springframework.util.Assert;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -6,7 +8,7 @@ import java.util.TreeMap;
 /**
  * Created by rudolf.traunmueller on 02.12.2017.
  */
-public class Player {
+public class PlayerFromExcel {
     private String name;
 
     private String license;
@@ -32,6 +34,7 @@ public class Player {
     }
 
     public void setLicense(String license) {
+        Assert.hasText(license, "the license for player " + name + " mustn't be empty");
         this.license = license;
     }
 
