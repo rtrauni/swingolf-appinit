@@ -43,7 +43,7 @@ public class HelloController {
         String s = (persons + clubs);
         write(s);
 
-        importRegistry.getTournaments().stream().map(tournament -> tournament.toNeo4j()).forEach(str -> write(str));
+        importRegistry.getTournaments().stream().map(tournament -> tournament.toNeo4j()).forEach(str -> write(persons + str));
 
 
         FileUtils.writeStringToFile(new File("output.txt"), s);
