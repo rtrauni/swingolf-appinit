@@ -39,7 +39,7 @@ public class Game extends Neo4jBaseDto {
             sb.append(scores.stream().map(score -> score.toNeo4j()).collect(Collectors.joining("\n")));
 
             sb.append("\n");
-        System.out.println(sb.toString());
+        //System.out.println(sb.toString());
             return sb.toString();
     }
 

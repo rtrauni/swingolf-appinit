@@ -22,7 +22,7 @@ public class Neo4jBridge implements AutoCloseable {
         int n = 0;
         for (List<String> part : partition) {;
             n++;
-            System.out.println(n+ " / "+partition.size());
+            //            System.out.println(n+ " / "+partition.size());
         try ( Session session = driver.session() )
         {
 String greeting = session.writeTransaction( new TransactionWork<String>()

@@ -2,14 +2,13 @@ package at.swingolf.appinit;
 
 import at.swingolf.appinit.importplayers.PlayerFromCsvReader;
 import at.swingolf.appinit.importresults.TournamentFromExcelReader;
-import at.swingolf.appinit.neo4jconverter.Person;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,9 +40,10 @@ public class HelloController {
 
         delete();
         String s = (persons + clubs);
-        write(s);
+        write(s, 1);
 
-        importRegistry.getTournaments().stream().map(tournament -> tournament.toNeo4j()).forEach(str -> write(persons + str));
+        AtomicInteger counter = new AtomicInteger(0);
+        importRegistry.getTournaments().stream().map(tournament -> tournament.toNeo4j()).forEach(str -> write(persons + str,counter.getAndIncrement()));
 
 
         FileUtils.writeStringToFile(new File("output.txt"), s);
@@ -57,7 +57,8 @@ public class HelloController {
         bridge.execute(delete);
     }
 
-    private void write(String cypher) {
+    private void write(String cypher, int andIncrement) {
+        System.out.println(andIncrement + "/"+importRegistry.getTournaments().size());
         Neo4jBridge bridge = new Neo4jBridge("bolt://localhost:7687", "neo4j", "test");
 //        System.out.println("about to write "+cypher.length()+" long cypher to neo4j db");
         bridge.execute(cypher);
