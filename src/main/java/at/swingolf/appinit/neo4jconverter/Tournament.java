@@ -58,4 +58,14 @@ public class Tournament extends Neo4jBaseDto{
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Tournament{" +
+                "date=" + date.getTime() +
+                ", location=" + location +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
+

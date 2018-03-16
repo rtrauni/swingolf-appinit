@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum Location {
-    LINZ("LI"),ISERLOY("IS"),WESTENHOLZ("WE"),RA("RA"),ES("ES"),HZ("HZ"),SW("SW"),BO("BO"),PA("PA"),AL("AL"),HO("HO"),RE("RE"),MA("MA"),GUTVEHR("GV");
+    LINZ("LI"),ISERLOY("IS"),WESTENHOLZ("WE"),RA("RA"),ES("ES"),HZ("HZ"),SW("SW"),BO("BO"),PA("PA"),AL("AL"),HO("HO"),RE("RE"),MA("MA"),GUTVEHR("GV"), WA("WA"), ChambraylèsTours("Chambray-lès-Tours"), WESTERODE("Westerode"), MÜ("MÜ");
     private String shortcut;
     Location(String shortcut) {
         this.shortcut= shortcut;

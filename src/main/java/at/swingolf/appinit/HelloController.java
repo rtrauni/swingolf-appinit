@@ -2,6 +2,7 @@ package at.swingolf.appinit;
 
 import at.swingolf.appinit.importplayers.PlayerFromCsvReader;
 import at.swingolf.appinit.importresults.TournamentFromExcelReader;
+import at.swingolf.appinit.importresults.TournamentFromHttpReader;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,8 @@ public class HelloController {
     @Autowired
     TournamentFromExcelReader tournamentFromExcelReader;
     @Autowired
+    TournamentFromHttpReader tournamentFromHttpReader;
+    @Autowired
     ImportRegistry importRegistry;
 
     @RequestMapping("/")
@@ -25,9 +28,17 @@ public class HelloController {
         return "Greetings from Spring Boot!";
     }
 
+    @RequestMapping("/testtournamentfromhttp")
+    public String index1() {
+        tournamentFromHttpReader.importTournaments();
+        importRegistry.getTournaments().forEach(tournament -> System.out.println(tournament));
+        return "Greetings from Spring Boot!";
+    }
+
     @RequestMapping("/import")
     public synchronized String importer() throws IOException {
         importRegistry.clear();
+
         System.out.println("importing Results");
         playerFromCsvReader.importTournaments();
         System.out.println("importing Tournaments");

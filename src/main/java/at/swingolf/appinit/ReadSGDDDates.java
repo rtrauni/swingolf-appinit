@@ -3,6 +3,8 @@ package at.swingolf.appinit;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +13,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+@Service
 public class ReadSGDDDates {
 
     private static final String before ="Termine 2018";
@@ -22,7 +26,7 @@ public class ReadSGDDDates {
 
     private final String tournamentURL = "http://www.swingolf-dachverband.de/index.php/sport/terminkalender";
 
-    private class Entry {
+    public class Entry {
 
         private final String date;
         private final String what;
@@ -33,10 +37,30 @@ public class ReadSGDDDates {
         public Entry(String s) {
             String[] entries = StringUtils.splitByWholeSeparator(s, "xxx");
             this.date = entries[0].trim();
-            this.what=entries[1].trim();
+            this.what= entries[1].trim();
             this.whatelse =entries[2].trim();
             this.who = entries[3].trim();
             this.where = entries[4].trim();
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public String getWhat() {
+            return what;
+        }
+
+        public String getWhatelse() {
+            return whatelse;
+        }
+
+        public String getWho() {
+            return who;
+        }
+
+        public String getWhere() {
+            return where;
         }
 
         @Override
