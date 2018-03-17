@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Optional;
 
 public class TournamentFromHttp {
     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -62,7 +61,7 @@ public class TournamentFromHttp {
         } else if (where.contains("markdorf")) {
             location = Location.MA;
         } else if (where.contains("chambray")) {
-            location = Location.ChambraylèsTours;
+            location = Location.CHAMBRAYLETOURS;
         } else if (where.contains("westerode")) {
             location = Location.WESTERODE;
         } else if (where.contains("paulushofen")) {
@@ -80,7 +79,8 @@ public class TournamentFromHttp {
         if (location != null) {
 
         Tournament tournament = importRegistry.createOrGetTournament(calendar, location);
-        tournament.setName(entry.getWhat());
+            System.out.println(entry.getWhat().replaceAll("-l&egrave;s-Tours","").replaceAll("-lès-",""));
+        tournament.setName(entry.getWhat().replaceAll("-l&egrave;s-Tours","").replaceAll("-lès-",""));
         }
 
     }
