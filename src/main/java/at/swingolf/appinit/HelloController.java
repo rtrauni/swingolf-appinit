@@ -5,6 +5,7 @@ import at.swingolf.appinit.importresults.TournamentFromExcelReader;
 import at.swingolf.appinit.importresults.TournamentFromHttpReader;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -35,6 +36,7 @@ public class HelloController {
         return "Greetings from Spring Boot!";
     }
 
+    @Scheduled(cron = "0 0 23 * * *")
     @RequestMapping("/import")
     public synchronized String importer() throws IOException {
         importRegistry.clear();
