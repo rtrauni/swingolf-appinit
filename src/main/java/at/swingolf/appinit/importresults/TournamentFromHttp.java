@@ -67,7 +67,7 @@ public class TournamentFromHttp {
         } else if (where.contains("paulushofen")) {
             location = Location.PA;
         } else if (where.contains("münsterland")) {
-            location = Location.MÜ;
+            location = Location.MUE;
         } else if (where.contains("göttingen")) {
         } else
          {
