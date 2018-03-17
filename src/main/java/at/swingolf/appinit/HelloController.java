@@ -39,6 +39,8 @@ public class HelloController {
     public synchronized String importer() throws IOException {
         importRegistry.clear();
 
+        System.out.println("importing new tournaments");
+        tournamentFromHttpReader.importTournaments();
         System.out.println("importing Results");
         playerFromCsvReader.importTournaments();
         System.out.println("importing Tournaments");
