@@ -64,7 +64,7 @@ public class HelloController {
     }
 
     private void delete() {
-        Neo4jBridge bridge = new Neo4jBridge("bolt://neo4j:7687", "neo4j", "test");
+        Neo4jBridge bridge = new Neo4jBridge(System.getProperty("bolt","bolt://localhost:7687"), System.getProperty("bolt.user","neo4j"), System.getProperty("bolt-pass","test"));
 //        System.out.println("about to write "+cypher.length()+" long cypher to neo4j db");
         String delete = "MATCH (n) DETACH DELETE n\n";
         bridge.execute(delete);
@@ -72,7 +72,7 @@ public class HelloController {
 
     private void write(String cypher, int andIncrement) {
         System.out.println(andIncrement + "/"+importRegistry.getTournaments().size());
-        Neo4jBridge bridge = new Neo4jBridge("bolt://neo4j:7687", "neo4j", "test");
+        Neo4jBridge bridge = new Neo4jBridge(System.getProperty("bolt","bolt://localhost:7687"), System.getProperty("bolt.user","neo4j"), System.getProperty("bolt-pass","test"));
 //        System.out.println("about to write "+cypher.length()+" long cypher to neo4j db");
         bridge.execute(cypher);
 //        System.out.println("wrote "+cypher.length()+" long cypher to neo4j db");
