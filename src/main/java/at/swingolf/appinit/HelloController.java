@@ -62,7 +62,7 @@ public class HelloController {
     }
 
     private void delete() {
-        Neo4jBridge bridge = new Neo4jBridge("bolt://localhost:7687", "neo4j", "test");
+        Neo4jBridge bridge = new Neo4jBridge("bolt://neo4j:7687", "neo4j", "test");
 //        System.out.println("about to write "+cypher.length()+" long cypher to neo4j db");
         String delete = "MATCH (n) DETACH DELETE n\n";
         bridge.execute(delete);
