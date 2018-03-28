@@ -61,10 +61,10 @@ public class Person extends Neo4jBaseDto {
         return new Object[]{getId()};
     }
 
-<<<<<<< HEAD
     public void addHandicap(Calendar date, Double oldHandicap) {
-        oldHandicaps.put(date,oldHandicap);
-=======
+        oldHandicaps.put(date, oldHandicap);
+    }
+
     public void setCategory(String category) {
         this.category = category;
     }
@@ -79,6 +79,5 @@ public class Person extends Neo4jBaseDto {
 
     public double getHandicap() {
         return handicap;
->>>>>>> 7f6c5819455759707060e4fc7883636bd4e7d261
     }
 }
