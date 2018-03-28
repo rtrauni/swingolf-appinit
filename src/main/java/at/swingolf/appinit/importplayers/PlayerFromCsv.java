@@ -36,6 +36,8 @@ public class PlayerFromCsv {
         String club = person[0];
         String name = person[1];
         String license = person[2];
+        String category= person[4];
+        String handicap= person[5];
         Validate.notEmpty(license);
         String firstname = person[47];
 
@@ -67,5 +69,7 @@ public class PlayerFromCsv {
         p.addClubForYear(c,year);
         p.setName(name);
         p.setFirstname(firstname);
+        p.setCategory(category);
+        p.setHandicap(Double.parseDouble(handicap));
     }
 }

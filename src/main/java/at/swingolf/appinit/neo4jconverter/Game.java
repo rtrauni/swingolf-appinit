@@ -34,13 +34,17 @@ public class Game extends Neo4jBaseDto {
 
     public String toNeo4j() {
         StringBuffer sb =createStringBuffer();
-            sb.append("CREATE ("+getKey()+":Game {name: '"+getName()+"'})\n");
+            sb.append("CREATE ("+getKey()+":Game {name: '"+getName()+"', date:'"+format(getDate())+"'})\n");
 
             sb.append(scores.stream().map(score -> score.toNeo4j()).collect(Collectors.joining("\n")));
 
             sb.append("\n");
         //System.out.println(sb.toString());
             return sb.toString();
+    }
+
+    private String format(Calendar date) {
+        return sdf.format(date.getTime());
     }
 
     @Override

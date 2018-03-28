@@ -13,15 +13,17 @@ public class Person extends Neo4jBaseDto {
     Map<Calendar, Double> oldHandicaps = new TreeMap<>();
     private String name;
     private String firstname;
+    private String category;
+    private double handicap;
 
     public Person(String personId) {
-        Assert.notNull(personId,"The personId mustn't be null.");
-        this.id=personId;
+        Assert.notNull(personId, "The personId mustn't be null.");
+        this.id = personId;
 
     }
 
     public void addClubForYear(Club c, int year) {
-        clubPerYear.put(year,c);
+        clubPerYear.put(year, c);
     }
 
     public void setName(String name) {
@@ -45,12 +47,12 @@ public class Person extends Neo4jBaseDto {
     }
 
     public String toNeo4j() {
-        StringBuffer sb =createStringBuffer();
-        sb.append( "CREATE ("+ getKey() +":User {firstname:'"+getFirstname()+"', lastname:'"+getName()+"'})\n");
-        sb.append("CREATE (license"+getKey()+":License {license:'"+getId()+"'})\n");
-        sb.append("CREATE (duration2017toNow"+getKey()+":Duration {from: 201700101, to: null})\n");
-        sb.append("CREATE (license"+getKey()+")-[:IS_ACTIVE]->(duration2017toNow"+getKey()+")\n");
-        sb.append("CREATE ("+getKey()+")-[:HAS_LICENSE]->(license"+getKey()+")\n");
+        StringBuffer sb = createStringBuffer();
+        sb.append("CREATE (" + getKey() + ":User {firstname:'" + getFirstname() + "', lastname:'" + getName() + "', category:'" + getCategory() + "', handicap:'" + getHandicap() + "'})\n");
+        sb.append("CREATE (license" + getKey() + ":License {license:'" + getId() + "'})\n");
+        sb.append("CREATE (duration2017toNow" + getKey() + ":Duration {from: 201700101, to: null})\n");
+        sb.append("CREATE (license" + getKey() + ")-[:IS_ACTIVE]->(duration2017toNow" + getKey() + ")\n");
+        sb.append("CREATE (" + getKey() + ")-[:HAS_LICENSE]->(license" + getKey() + ")\n");
         return sb.toString();
     }
 
@@ -59,7 +61,24 @@ public class Person extends Neo4jBaseDto {
         return new Object[]{getId()};
     }
 
+<<<<<<< HEAD
     public void addHandicap(Calendar date, Double oldHandicap) {
         oldHandicaps.put(date,oldHandicap);
+=======
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setHandicap(double handicap) {
+        this.handicap = handicap;
+    }
+
+    public double getHandicap() {
+        return handicap;
+>>>>>>> 7f6c5819455759707060e4fc7883636bd4e7d261
     }
 }
