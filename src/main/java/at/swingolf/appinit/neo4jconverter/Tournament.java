@@ -12,6 +12,7 @@ public class Tournament extends Neo4jBaseDto{
     private final Location location;
     private final List<Game> games = new LinkedList<>();
     private String name;
+    private Integer correcture;
 
     public Tournament(Calendar date, Location location) {
         this.date=date;
@@ -28,7 +29,7 @@ public class Tournament extends Neo4jBaseDto{
 
     public String toNeo4j() {
         StringBuffer sb =createStringBuffer();
-        sb.append("CREATE ("+getKey()+":Tournament {name: '"+getName()+"'})\n" +
+        sb.append("CREATE ("+getKey()+":Tournament {name: '"+getName()+"',location: '"+getLocation().getName()+"'})\n" +
                 "CREATE (duration"+getKey()+":Duration {from: "+sdf.format(getDate().getTime())+", to: "+sdf.format(getDate().getTime())+"})\n" +
                 "CREATE ("+getKey()+")-[:HAS_DATE]->(duration"+getKey()+")\n");
 
@@ -66,6 +67,14 @@ public class Tournament extends Neo4jBaseDto{
                 ", location=" + location +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public void setCorrecture(Integer correcture) {
+        this.correcture = correcture;
+    }
+
+    public Integer getCorrecture() {
+        return correcture;
     }
 }
 

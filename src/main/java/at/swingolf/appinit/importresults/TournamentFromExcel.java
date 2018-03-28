@@ -43,10 +43,22 @@ public class TournamentFromExcel {
         }
         Tournament tournament = importRegistry.createOrGetTournament(calendar, location.get());
         tournament.setName(getName());
+        Integer correcture = null;
+        if (!StringUtils.isEmpty(best15)) {
+            correcture = Integer.valueOf(best15);
+            tournament.setCorrecture(correcture);
+        }
+        if (!StringUtils.isEmpty(best20)) {
+            Integer best20Int = Integer.valueOf(best20);
+            if (best20Int < correcture) {
+                tournament.setCorrecture(best20Int);
+            }
+        }
         Game game = new Game(tournament, tournament.getKey(), calendar);
         tournament.addGame(game);
         playerFromExcels.stream().forEach(playerFromExcel -> {
             Person person = importRegistry.createOrGetPerson(playerFromExcel.getLicense());
+            person.addHandicap(game.getDate(),playerFromExcel.getOldHandicap());
             playerFromExcel.getScores().forEach((hole, score) -> {
                 Score s = new Score(person, hole, score, game);
                 game.addScore(s);

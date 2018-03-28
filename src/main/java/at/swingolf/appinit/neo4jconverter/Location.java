@@ -4,10 +4,13 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum Location {
-    LINZ("LI"),ISERLOY("IS"),WESTENHOLZ("WE"),RA("RA"),ES("ES"),HZ("HZ"),SW("SW"),BO("BO"),PA("PA"),AL("AL"),HO("HO"),RE("RE"),MA("MA"),GUTVEHR("GV"), WA("WA"), CHAMBRAYLETOURS("ChambraylesTours"), WESTERODE("Westerode"), MUE("MUE");
+    LINZ("LI","Linz"),ISERLOY("IS","Iserloy"),WESTENHOLZ("WE","Westenholz"),RA("RA","RA"),ES("ES","Essen"),HZ("HZ","Harz"),SW("SW","Schwansen"),BO("BO","BO"),PA("PA","Paulushofen"),AL("AL","Allgäu"),HO("HO","Horbach"),RE("RE","Renningen"),MA("MA","MA"),
+    GUTVEHR("GV","Gut Vehr"), WA("WA","WA"), CHAMBRAYLETOURS("ChambraylesTours","ChambraylesTours"), WESTERODE("Westerode","Westerode"), MUE("MUE","MUE");
+    private String name;
     private String shortcut;
-    Location(String shortcut) {
+    Location(String shortcut,String name) {
         this.shortcut= shortcut;
+        this.name=name;
     }
 
     public String getShortcut() {
@@ -16,5 +19,9 @@ public enum Location {
 
     public static Optional<Location> fromShortcut(String shortcut) {
         return Arrays.stream(Location.values()).filter(value -> value.getShortcut().equalsIgnoreCase(shortcut)).findFirst();
+    }
+
+    public String getName() {
+        return name;
     }
 }

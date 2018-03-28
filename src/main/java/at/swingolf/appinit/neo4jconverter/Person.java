@@ -2,12 +2,15 @@ package at.swingolf.appinit.neo4jconverter;
 
 import org.springframework.util.Assert;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Person extends Neo4jBaseDto {
     private final String id;
     Map<Integer, Club> clubPerYear = new HashMap<>();
+    Map<Calendar, Double> oldHandicaps = new TreeMap<>();
     private String name;
     private String firstname;
 
@@ -54,5 +57,9 @@ public class Person extends Neo4jBaseDto {
     @Override
     Object[] getKeyInternal() {
         return new Object[]{getId()};
+    }
+
+    public void addHandicap(Calendar date, Double oldHandicap) {
+        oldHandicaps.put(date,oldHandicap);
     }
 }
