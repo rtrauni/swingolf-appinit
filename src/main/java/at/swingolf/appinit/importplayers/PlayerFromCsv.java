@@ -28,7 +28,7 @@ public class PlayerFromCsv {
     }
 
     public void toNeo4J() {
-        entries.stream().forEach(s -> createPerson(s));
+        entries.stream().filter(s -> !s.matches("^[,]+$")).forEach(s -> createPerson(s));
     }
 
     private void createPerson(String string) {

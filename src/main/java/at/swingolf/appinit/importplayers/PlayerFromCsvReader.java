@@ -31,6 +31,7 @@ public class PlayerFromCsvReader {
     }
 
         public void parseFile(File file) {
+            System.out.println(file);
             String yearString = org.apache.commons.lang3.StringUtils.substringAfterLast(FilenameUtils.getBaseName(file.getName()), " ");
             Integer year = Integer.parseInt(yearString);
 

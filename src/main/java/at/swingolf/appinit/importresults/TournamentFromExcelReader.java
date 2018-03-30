@@ -88,11 +88,11 @@ public class TournamentFromExcelReader {
                         }
                         // best15
                         if (matches(r, c,4,1)) {
-                            tournamentFromExcel.setBest15(c.getStringCellValue());
+                            tournamentFromExcel.setBest15(c.getStringCellValue().replaceAll("\"", ""));
                         }
                         // best20
                         if (matches(r, c,5,1)) {
-                            tournamentFromExcel.setBest20(c.getStringCellValue());
+                            tournamentFromExcel.setBest20(c.getStringCellValue().replaceAll("\"", ""));
                         }
                         if (r.getRowNum()>=7) {
                             if (c.getColumnIndex()==0 && c.getStringCellValue().length()<=2) {
