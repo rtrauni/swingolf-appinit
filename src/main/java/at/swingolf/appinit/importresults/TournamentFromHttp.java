@@ -68,10 +68,11 @@ public class TournamentFromHttp {
             location = Location.PA;
         } else if (where.contains("münsterland")) {
             location = Location.MUE;
+        } else if (where.contains("gut vehr")) {
+            location = Location.MUE;
         } else if (where.contains("göttingen")) {
-        } else
-         {
-            throw new RuntimeException("not supported");
+        } else {
+            throw new RuntimeException("not supported: " + where);
         }
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(parsedDate);
