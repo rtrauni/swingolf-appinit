@@ -15,6 +15,8 @@
 -Dresult.directory="/home/rudolftraunmueller/git/swingolf-appinit/src/test/resources/results/"
 
 # excel export
+openoffice
 save Handicap_Lizenzspieler as csv
-replace all ; with ,
-rename to
+field delimiter ,
+text delimiter empty
+rename to player 2018.csv
