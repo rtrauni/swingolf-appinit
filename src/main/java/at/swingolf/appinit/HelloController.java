@@ -58,7 +58,10 @@ public class HelloController {
         write(s, 1);
 
         AtomicInteger counter = new AtomicInteger(0);
-        importRegistry.getTournaments().stream().map(tournament -> tournament.toNeo4j()).forEach(str -> write(persons + str,counter.getAndIncrement()));
+        importRegistry.getTournaments().stream().map(tournament1 ->  {
+            System.out.println(tournament1.toString());
+            return tournament1;
+        }).map(tournament -> tournament.toNeo4j()).forEach(str -> write(persons + str,counter.getAndIncrement()));
 
 
         FileUtils.writeStringToFile(new File("output.txt"), s);
