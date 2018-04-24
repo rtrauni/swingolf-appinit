@@ -29,7 +29,7 @@ public class Tournament extends Neo4jBaseDto{
 
     public String toNeo4j() {
         StringBuffer sb =createStringBuffer();
-        sb.append("CREATE ("+getKey()+":Tournament {name: '"+getName()+"',location: '"+getLocation().getName()+"'})\n" +
+        sb.append("CREATE (" + getKey() + ":Tournament {name: '" + getName() + "',location: '" + getLocation().getName() + "',correcture: '" + getCorrecture() + "'})\n" +
                 "CREATE (duration"+getKey()+":Duration {from: "+sdf.format(getDate().getTime())+", to: "+sdf.format(getDate().getTime())+"})\n" +
                 "CREATE ("+getKey()+")-[:HAS_DATE]->(duration"+getKey()+")\n");
 
