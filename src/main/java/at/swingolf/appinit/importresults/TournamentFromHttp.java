@@ -70,6 +70,8 @@ public class TournamentFromHttp {
             location = Location.MUE;
         } else if (where.contains("gut vehr")) {
             location = Location.MUE;
+        } else if (where.contains("niederdürenbach")) {
+            location = Location.BO;
         } else if (where.contains("göttingen")) {
         } else {
             throw new RuntimeException("not supported: " + where);
