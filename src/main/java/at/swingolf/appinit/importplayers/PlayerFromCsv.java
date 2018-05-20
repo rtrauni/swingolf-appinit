@@ -79,6 +79,8 @@ public class PlayerFromCsv {
         p.setName(name);
         p.setFirstname(firstname);
         p.setCategory(category);
-        p.setHandicap(Double.parseDouble(handicap));
+        if (!StringUtils.isEmpty(handicap)) {
+            p.setHandicap(Double.parseDouble(handicap));
+        }
     }
 }
