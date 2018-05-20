@@ -14,16 +14,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class HandicapUpdater implements InitializingBean {
     private final String tournamentURL = "http://swingolf-dachverband.de/images/hc/Handicap_Lizenzspieler.xls";
     private byte[] uebersicht;
-    public List<Player> players = new LinkedList<>();
+    public Map<String, Player> players = new HashMap<>();
 
     @Scheduled(cron = "0 0 * * * *")
     public void update() {
@@ -34,7 +31,7 @@ public class HandicapUpdater implements InitializingBean {
     }
 
     private void parseFile(byte[] file) {
-        List<Player> players = new LinkedList<>();
+        Map<String, Player> players = new HashMap<>();
         Collection<TournamentFromExcel> tournamentFromExcels = new LinkedList<>();
         try {
             InputStream is = new ByteArrayInputStream(file);
@@ -48,7 +45,7 @@ public class HandicapUpdater implements InitializingBean {
                     String license = myrow.getCell(2).getStringCellValue();
                     String category = myrow.getCell(4).getStringCellValue();
                     double handicap = myrow.getCell(39).getNumericCellValue();
-                    players.add(new Player(license, firstname, lastname, handicap, category));
+                    players.put(license, new Player(license, firstname, lastname, handicap, category));
                 }
             }
         } catch (Exception ex) {

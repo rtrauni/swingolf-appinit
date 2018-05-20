@@ -1,6 +1,8 @@
 package at.swingolf.appinit.importplayers;
 
 import at.swingolf.appinit.ImportRegistry;
+import at.swingolf.appinit.handicapservice.HandicapUpdater;
+import at.swingolf.appinit.handicapservice.Player;
 import at.swingolf.appinit.neo4jconverter.Club;
 import at.swingolf.appinit.neo4jconverter.Location;
 import at.swingolf.appinit.neo4jconverter.Person;
@@ -16,15 +18,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class PlayerFromCsv {
+    private final HandicapUpdater handicapUpdater;
     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private final List<String> entries;
     private final ImportRegistry importRegistry;
     private final int year;
 
-    public PlayerFromCsv(List<String> entries, int year, ImportRegistry importRegistry) {
+    public PlayerFromCsv(List<String> entries, int year, ImportRegistry importRegistry, HandicapUpdater handicapUpdater) {
         this.entries = entries;
         this.importRegistry=importRegistry;
         this.year=year;
+        this.handicapUpdater = handicapUpdater;
     }
 
     public void toNeo4J() {
@@ -37,7 +41,12 @@ public class PlayerFromCsv {
         String name = person[1];
         String license = person[2];
         String category= person[4];
-        String handicap= person[5];
+        //String handicap= person[5];
+        Player player = handicapUpdater.players.get(license);
+        String handicap = "";
+        if (player != null) {
+            handicap = Double.valueOf(player.getHandicap()).toString();
+        }
         Validate.notEmpty(license);
         String firstname = person[47];
 

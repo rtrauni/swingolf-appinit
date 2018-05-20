@@ -12,12 +12,12 @@ public class HandicapRestController {
 
     @RequestMapping("/player/{id}")
     public Player greeting(@PathVariable String id) {
-        return handicapUpdater.players.stream().filter(player -> player.getLicense().equalsIgnoreCase(id)).findFirst().orElseGet(null);
+        return handicapUpdater.players.values().stream().filter(player -> player.getLicense().equalsIgnoreCase(id)).findFirst().orElseGet(null);
     }
 
     @RequestMapping("/player/{id}/handicap")
     public String greeting2(@PathVariable String id) {
-        Player player2 = handicapUpdater.players.stream().filter(player -> player.getLicense().equalsIgnoreCase(id)).findFirst().orElseGet(null);
+        Player player2 = handicapUpdater.players.values().stream().filter(player -> player.getLicense().equalsIgnoreCase(id)).findFirst().orElseGet(null);
         if (player2 == null) {
             return "";
         }

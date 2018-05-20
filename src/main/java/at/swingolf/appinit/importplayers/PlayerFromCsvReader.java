@@ -1,6 +1,7 @@
 package at.swingolf.appinit.importplayers;
 
 import at.swingolf.appinit.ImportRegistry;
+import at.swingolf.appinit.handicapservice.HandicapUpdater;
 import one.util.streamex.StreamEx;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -22,6 +23,9 @@ public class PlayerFromCsvReader {
 
     @Autowired
     private ImportRegistry importRegistry;
+
+    @Autowired
+    private HandicapUpdater handicapUpdater;
     public PlayerFromCsvReader() {
     }
 
@@ -46,6 +50,6 @@ public class PlayerFromCsvReader {
             for(int i = 0; i < entries.size(); i += 2) {
                 joined.add(entries.get(i)+","+entries.get(i+1));
             }
-            new PlayerFromCsv(joined,year,importRegistry).toNeo4J();
+            new PlayerFromCsv(joined, year, importRegistry, handicapUpdater).toNeo4J();
         }
     }
